@@ -49,7 +49,7 @@ data class Product (
 data class ProductCategoryCrossRef (
     @ColumnInfo(name = "product_id")
     var productId: Long,
-    @ColumnInfo(name = "category_id")
+    @ColumnInfo(name = "category_id", index = true)
     var categoryId: Long
 )
 
