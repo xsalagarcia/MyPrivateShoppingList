@@ -4,19 +4,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import sala.xevi.myprivateshoppinglist.database.Category
 import sala.xevi.myprivateshoppinglist.databinding.RvItemCategoryBinding
 import sala.xevi.myprivateshoppinglist.databinding.RvItemProductBinding
 
 class CategoriesAdapter (val listeners: CategoryItemListeners):
-    RecyclerView.Adapter<CategoriesAdapter.ViewHolder> () {
+    ListAdapter<Category, CategoriesAdapter.ViewHolder>(CategoryDiffCallback()) {
 
-    var data = listOf<Category>()
-        set(category) {
-            field = category
-            notifyDataSetChanged()
-        }
+
 
     class ViewHolder(val binding: RvItemCategoryBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(category: Category, listeners: CategoryItemListeners){
@@ -31,10 +29,9 @@ class CategoriesAdapter (val listeners: CategoryItemListeners):
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(data[position], listeners)
+        holder.bind(getItem(position), listeners)
     }
 
-    override fun getItemCount(): Int = data.size
 
 
 
@@ -48,3 +45,14 @@ class CategoryItemListeners (
             fun onClickRemove(category: Category) = removeListener(category)
             fun onFocusChangedCatNameET(editText: EditText, category: Category) = focusChangeCatETListener(editText, category)
 }
+
+class CategoryDiffCallback: DiffUtil.ItemCallback<Category>() {
+    override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: Category, newItem: Category): Boolean {
+        return oldItem == newItem
+    }
+}
+
