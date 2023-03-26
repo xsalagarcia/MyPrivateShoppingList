@@ -9,6 +9,7 @@ import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -24,6 +25,11 @@ class CategoriesViewModel (val database: ShoppingListDao, application: Applicati
 
     //database.getAllCategories returns a LiveData
     val categories = database.getAllCategories()
+
+
+    fun filteredCategories(filter: String): LiveData<List<Category>> {
+        return database.getFilteredNameCategories(filter)
+    }
 
     fun addNewCategory(categoryName: String) {
         viewModelScope.launch {

@@ -39,6 +39,9 @@ interface ShoppingListDao {
     @Query("SELECT * FROM category_table")
     fun getAllCategories (): LiveData<List<Category>> //suspend not necessary with livedata
 
+    @Query("SELECT * FROM category_table WHERE name LIKE '%' || :filter || '%'")
+    fun getFilteredNameCategories(filter: String): LiveData<List<Category>>
+
     @Query("SELECT * FROM product_category_cross_ref")
     fun getAllProductCategoryCrossRef (): List<ProductCategoryCrossRef>
 

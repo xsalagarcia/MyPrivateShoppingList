@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.SearchView
+
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -60,11 +62,39 @@ class CategoriesFragment : Fragment() {
             )
 
         )
+
+
         categoriesViewModel.categories.observe(viewLifecycleOwner, Observer{
             it?.let{
                 adapter.submitList(it)
             }
         })
+
+
+        binding.searchCategoriesSV.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                    if (newText.isNullOrBlank()){
+                        categoriesViewModel.categories.observe(viewLifecycleOwner, Observer{
+                            it?.let{
+                                adapter.submitList(it)
+                            }
+                        })
+                    } else {
+                        categoriesViewModel.filteredCategories (newText).observe(viewLifecycleOwner, Observer{
+                            it?.let{
+                                adapter.submitList(it)
+                            }
+                        })
+                    }
+                return false
+            }
+
+        })
+
         binding.categoriesRV.adapter = adapter
 
         //In a fragment, onclick programmatically.
