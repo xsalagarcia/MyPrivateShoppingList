@@ -25,4 +25,12 @@
         <item name="strokeWidth">0dp</item>
 
     </style>
+
+    <style name="CategoryET">
+        <item name="android:maxLength">50</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:inputType">textPersonName</item>
+    </style>
+
+
 </resources>

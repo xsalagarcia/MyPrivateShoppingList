@@ -10,22 +10,22 @@ interface ShoppingListDao {
     fun insertProduct (product: Product)
 
     @Insert
-    fun insertCategory (category: Category)
+    suspend fun insertCategory (category: Category)
 
     @Insert
     fun insertProductCategoryCrossRef (categoryCrossRef: ProductCategoryCrossRef)
 
     @Update
-    fun updateProduct (product: Product)
+    suspend fun updateProduct (product: Product)
 
     @Update
-    fun updateCategory (category: Category)
+    suspend fun updateCategory (category: Category)
 
     @Delete
     fun deleteProduct (product: Product)
 
     @Delete
-    fun deleteCategory (category: Category)
+    suspend fun deleteCategory (category: Category)
 
     @Delete
     fun deleteProductCategoryCrossRef (productCategoryCrossRef: ProductCategoryCrossRef)
@@ -37,7 +37,7 @@ interface ShoppingListDao {
     fun getAllProducts (): List<Product>//LiveData<List<Product>>
 
     @Query("SELECT * FROM category_table")
-    fun getAllCategories (): LiveData<List<Category>>
+    fun getAllCategories (): LiveData<List<Category>> //suspend not necessary with livedata
 
     @Query("SELECT * FROM product_category_cross_ref")
     fun getAllProductCategoryCrossRef (): List<ProductCategoryCrossRef>

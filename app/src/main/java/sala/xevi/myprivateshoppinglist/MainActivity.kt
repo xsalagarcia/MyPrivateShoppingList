@@ -21,7 +21,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+
     fun onItemSelectedBottomNav(menuItem: MenuItem):Boolean {
+
         when (menuItem.itemId) {
             R.id.shopping_list -> findNavController(R.id.fragmentContainerView).navigate(R.id.shoppingListFragment)
             R.id.categories -> findNavController(R.id.fragmentContainerView).navigate(R.id.categoriesFragment)

@@ -6,10 +6,14 @@
         <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/drawable/ic_launcher_background.xml" value="0.197" />
         <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/layout-v26/fragment_shopping_list.xml" value="0.18333333333333332" />
         <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/layout/dialog_new_category.xml" value="0.25" />
         <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/layout/fragment_about.xml" value="0.11911231884057971" />
-        <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/layout/fragment_categories.xml" value="0.11820652173913043" />
+        <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/layout/fragment_categories.xml" value="0.1" />
         <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/layout/fragment_products.xml" value="0.18802083333333333" />
         <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/layout/fragment_shopping_list.xml" value="0.18" />
+        <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/layout/list_item_cateory.xml" value="0.19010416666666666" />
+        <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/layout/rv_item_category.xml" value="0.36666666666666664" />
+        <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/layout/rv_item_product.xml" value="0.1" />
         <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.1828125" />
       </map>
     </option>
@@ -19,5 +23,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.11820652173913043" />
+      </ProjectState>
+    </option>
   </component>
 </project>

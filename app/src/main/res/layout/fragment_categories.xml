@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="categoriesViewModel"
+            type="sala.xevi.myprivateshoppinglist.categories.CategoriesViewModel"/>
+    </data>
+
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -18,6 +24,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/ic_outline_add_circle_outline_24" />
+    <!--android:onClick=""programatically at the fragment-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,7 +43,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/categoriesRV"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

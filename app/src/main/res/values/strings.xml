@@ -5,4 +5,10 @@
     <string name="about">About</string>
     <string name="urgent">Urgent</string>
     <string name="to_buy">To buy</string>
+    <string name="delete">Delete</string>
+    <string name="create_new_cat">Create a new category</string>
+    <string name="write_cat_name">Write a category name</string>
+    <string name="cat_suggestion">Maybe a shop or kind of product...</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
 </resources>
