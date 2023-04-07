@@ -2,30 +2,185 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+<data>
+    <variable
+        name="productsItemListeners"
+        type="sala.xevi.myprivateshoppinglist.shoppinglist.ProductsItemListeners" />
+    <variable
+        name="productWithCategories"
+        type="sala.xevi.myprivateshoppinglist.database.ProductWithCategories" />
+    <variable
+        name="productViewModel"
+        type="sala.xevi.myprivateshoppinglist.shoppinglist.ProductsViewModel"/>
+</data>
 
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-
-    <EditText
-        android:id="@+id/productET"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:maxLength="50"
-        android:maxLines="1"
-        android:text="Name" />
+        android:paddingBottom="5dp"
+        android:orientation="vertical">
 
-    <ImageButton
-        android:id="@+id/deleteBtn"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
-        android:layout_weight="0"
-        android:hint="@string/delete"
-        app:srcCompat="@drawable/ic_outline_delete_24" />
-</LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/productET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                style="@style/CategoryET"
+                android:text="@{productWithCategories.product.name}"
+                app:onFocusChangeListener="@{()-> productsItemListeners.onFocusChangedProductET(productET, productWithCategories)}"
+                android:hint="@string/product_name"/>
+
+            <ImageButton
+                android:id="@+id/deleteBtn"
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:layout_weight="0"
+                android:hint="@string/expand"
+                app:expandImageButton="@{expandableLayout}"
+                app:srcCompat="@drawable/ic_baseline_arrow_drop_down_24" />
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/toBuyAndUrgentTBG"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:buttonUrgent="@{isUrgent}"
+                app:buttonToBuy="@{hasToBuy}"
+                app:buttonToBuyAtChecked="@{hasToBuy}"
+                app:viewModel="@{productViewModel}"
+                app:productWithCategories="@{productWithCategories}"
+
+                app:singleSelection="false">
+
+                <Button
+                    android:id="@+id/isUrgent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tooltipText="@string/urgent"
+                    android:layout_weight="1"
+                    app:icon="@drawable/ic_baseline_production_quantity_limits_24"
+                    style="@style/ToggleButtonWithIconOnly"
+                    />
+
+                <Button
+                    android:id="@+id/hasToBuy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:tooltipText="@string/to_buy"
+                    android:layout_weight="1"
+                    app:icon="@drawable/ic_outline_shopping_cart_24"
+                    style="@style/ToggleButtonWithIconOnly"
+                    /><!--android:checked="@{product.hasToShop}"-->
+
+
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/commentsTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:productCommentsTV="@{productWithCategories.product}"
+            />
+
+        <LinearLayout
+            android:id="@+id/expandableLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            >
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/commentsET"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="@string/you_can_put_comments"
+                    android:paddingRight="40dp"
+                    android:inputType="textPersonName"
+                    android:text="@{productWithCategories.product.comments}"
+                    app:onFocusChangeListener="@{() -> productsItemListeners.onFocusChangedCommentsET(commentsET, productWithCategories)}"
+                    android:minHeight="48dp" />
+
+                <!--style="@android:style/Widget.Holo.Light.ImageButton"-->
+                <ImageButton
+                    android:id="@+id/deleteTextAtCommentsIB"
+                    style="?android:buttonBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginLeft="-40dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:minWidth="48dp"
+                    android:minHeight="48dp"
+                    app:srcCompat="@drawable/ic_outline_cancel_24"
+                    app:tint="?android:textColorHint" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/adCategoryIB"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.1"
+                    android:tooltipText="@string/add_category"
+                    style="@style/Widget.Material3.Button.IconButton"
+                    android:background="?android:attr/selectableItemBackground"
+                    app:srcCompat="@drawable/ic_category_ad_48_24" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="0.9">
+
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/categoriesCG"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    </com.google.android.material.chip.ChipGroup>
+                </HorizontalScrollView>
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/deleteIB"
+                style="@style/Widget.Material3.Button.IconButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="?android:attr/selectableItemBackground"
+                android:minWidth="48dp"
+                android:tooltipText="@string/delete"
+                android:onClick="@{() -> productsItemListeners.onClickRemove(productWithCategories.product)}"
+                app:srcCompat="@drawable/ic_outline_delete_24" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+    </LinearLayout>
+
 </layout>

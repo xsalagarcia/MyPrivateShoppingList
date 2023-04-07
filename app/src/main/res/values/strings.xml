@@ -11,4 +11,8 @@
     <string name="cat_suggestion">Maybe a shop or kind of product...</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
+    <string name="expand">Expand</string>
+    <string name="you_can_put_comments">You can punt some comments here (i.e. quantity)...</string>
+    <string name="add_category">Add new category</string>
+    <string name="product_name">Product name...</string>
 </resources>

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import sala.xevi.myprivateshoppinglist.databinding.ActivityMainBinding
@@ -18,6 +19,8 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         binding.bottomNavigation.setOnItemSelectedListener { mi->onItemSelectedBottomNav(mi) }
+
+
     }
 
 
@@ -32,5 +35,18 @@ class MainActivity : AppCompatActivity() {
 
 
         return true
+    }
+
+    fun showProgress (hasToShow: Boolean) {
+
+        if (hasToShow) {
+            binding.progressBar.visibility = View.VISIBLE
+            window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        } else {
+            binding.progressBar.visibility = View.GONE
+            window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+        }
+
+
     }
 }

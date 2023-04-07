@@ -42,7 +42,8 @@ class CategoriesFragment : Fragment() {
         binding.categoriesViewModel = categoriesViewModel
 
         //Sets the current activity as the lifecycle owner of the binding
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner//this //viewLifeCycleOwner??
+
 
 
         //and assigns the viewModel to the variable declared at xml??
@@ -63,12 +64,11 @@ class CategoriesFragment : Fragment() {
 
         )
 
-
-        categoriesViewModel.categories.observe(viewLifecycleOwner, Observer{
-            it?.let{
+        categoriesViewModel.categories.observe(viewLifecycleOwner) {
+            it?.let {
                 adapter.submitList(it)
             }
-        })
+        }
 
 
         binding.searchCategoriesSV.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
@@ -100,9 +100,6 @@ class CategoriesFragment : Fragment() {
         //In a fragment, onclick programmatically.
         binding.newItemFAB.setOnClickListener { addCategory(categoriesViewModel) }
 
-
-
-
         return binding.root
     }
 
@@ -122,9 +119,5 @@ class CategoriesFragment : Fragment() {
         }
     }
 
-    /*fun onNewItemFABClicked() {
 
-
-
-    }*/
 }

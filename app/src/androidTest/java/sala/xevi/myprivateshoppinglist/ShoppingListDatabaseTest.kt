@@ -1,9 +1,11 @@
 package sala.xevi.myprivateshoppinglist
 
 
+import androidx.lifecycle.Lifecycle
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -41,7 +43,8 @@ class ShoppingListDatabaseTest {
     @Throws(Exception::class)
     fun insertingProducts() {
 
-        insertProducts()
+
+        runBlocking {insertProducts()}
 
         assertEquals(shoppingListDao.getProductsSize(), 3)
         assertEquals(shoppingListDao.getProductById(1)!!.name, "mongetes")
@@ -52,7 +55,7 @@ class ShoppingListDatabaseTest {
     @Throws(Exception::class)
     fun insertingCategories() {
 
-        insertCategories()
+        runBlocking{insertCategories()}
 
         assertEquals(shoppingListDao.getCategoriesSize(), 2)
 
@@ -69,15 +72,26 @@ class ShoppingListDatabaseTest {
         val c1 = shoppingListDao.getCategoryById(1)
         val c2 = shoppingListDao.getCategoryById(2)
 
-        shoppingListDao.insertProductCategoryCrossRef(ProductCategoryCrossRef(p1!!.id, c1!!.id))
-        shoppingListDao.insertProductCategoryCrossRef(ProductCategoryCrossRef(p1!!.id, c2!!.id))
+        shoppingListDao.insertProductCategoryCrossRef(ProductCategoryCrossRef(p1!!.idp, c1!!.idc))
+        shoppingListDao.insertProductCategoryCrossRef(ProductCategoryCrossRef(p1!!.idp, c2!!.idc))
 
-        assertEquals(shoppingListDao.getCategoryNamesFromProductId(p1!!.id).size, 2)
-        assertEquals(shoppingListDao.getCategoriesFromProductId(p1!!.id).size, 2)
+        val productWithCategories = shoppingListDao.getProductsWithCategoriesNoLiveData()
+
+        val product1 = productWithCategories.filter{elem  -> elem.product.idp  == 1L }.first()
+
+        assertEquals(product1.product.name, "mongetes")
+        assertEquals(product1.categories.size, 2)
+        assertEquals(product1.categories.contains(c1), true)
+        assertEquals(product1.categories.contains(c2), true)
+
+        assertEquals(shoppingListDao.getCategoryNamesFromProductId(p1!!.idp).size, 2)
+        assertEquals(shoppingListDao.getCategoriesFromProductId(p1!!.idp).size, 2)
 
     }
 
-    private fun insertProducts() {
+
+
+    private suspend fun insertProducts() {
         val product1 = Product(0, "mongetes", "3kg", true, true)
         val product2 = Product (0, "patates", "1 bossa", true, false)
         val product3 = Product (0, "Cigrons", "2 pots", false, false)
@@ -87,7 +101,7 @@ class ShoppingListDatabaseTest {
         shoppingListDao.insertProduct(product3)//will be id = 3
     }
 
-    private fun insertCategories(){
+    private suspend fun insertCategories(){
         val cat1 = Category(0, "Bonpreu")
         val cat2 = Category(0, "Mercat")
         shoppingListDao.insertCategory(cat1)

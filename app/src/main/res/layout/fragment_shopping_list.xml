@@ -74,7 +74,12 @@
                 android:layout_gravity="center"
                 app:singleSelection="false"
                 android:layout_marginRight="10dp"
+                app:buttonUrgent="@{isUrgentBtn}"
+                app:buttonToBuy="@{hasToBuyBtn}"
+                app:checkedButtonsAtSearch="@{hasToBuyBtn}"
+
                 >
+                <!--app:setChangedListener="@{filterButtonsTBG}"-->
 
                 <Button
                     android:id="@+id/isUrgentBtn"
@@ -84,6 +89,7 @@
                     android:layout_weight="1"
                     app:icon="@drawable/ic_outline_shopping_urgent_24"
                     style="@style/ToggleButtonWithIconOnly"
+
                     />
 
                 <Button
@@ -103,7 +109,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/productsRV"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

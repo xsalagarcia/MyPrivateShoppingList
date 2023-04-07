@@ -7,19 +7,21 @@ import androidx.room.*
 This file contains database and entities definition.
  */
 
-@Entity(tableName = "category_table" )
+@Entity(tableName = "category_table", indices = [Index(value = ["name"], unique = true)] )
 data class Category (
     @PrimaryKey(autoGenerate = true)
-    var id: Long = 0L,
+    @ColumnInfo(name="idc")
+    var idc: Long = 0L,
     @ColumnInfo(name = "name")
     var name: String,
 
     )
 
-@Entity(tableName = "products_table" )
+@Entity(tableName = "products_table", indices = [Index(value = ["name"], unique = true)] )
 data class Product (
     @PrimaryKey(autoGenerate = true)
-    var id: Long = 0L,
+    @ColumnInfo(name="idp")
+    var idp: Long = 0L,
     @ColumnInfo(name = "name")
     var name: String,
     @ColumnInfo(name = "comments")
@@ -32,26 +34,38 @@ data class Product (
 
 @Entity(
     tableName = "product_category_cross_ref",
-    primaryKeys = ["product_id", "category_id"],
+    primaryKeys = ["idp", "idc"],
     foreignKeys = [
         ForeignKey(
             entity = Product::class,
-            parentColumns = arrayOf("id"),
-            childColumns = arrayOf("product_id"),
+            parentColumns = arrayOf("idp"),
+            childColumns = arrayOf("idp"),
             onDelete = ForeignKey.CASCADE),
         ForeignKey(
             entity = Category::class,
-            parentColumns = arrayOf("id"),
-            childColumns = arrayOf("category_id"),
+            parentColumns = arrayOf("idc"),
+            childColumns = arrayOf("idc"),
             onDelete = ForeignKey.CASCADE)
     ]
 )
 data class ProductCategoryCrossRef (
-    @ColumnInfo(name = "product_id")
+    @ColumnInfo(name = "idp")
     var productId: Long,
-    @ColumnInfo(name = "category_id", index = true)
+    @ColumnInfo(name = "idc", index = true)
     var categoryId: Long
 )
+
+
+//?to test
+data class ProductWithCategories (
+    @Embedded val product: Product,
+    @Relation(
+        parentColumn = "idp",
+        entityColumn = "idc",
+        associateBy = Junction(ProductCategoryCrossRef::class)
+    )
+    val categories: List<Category>
+    )
 
 
 @Database(entities = arrayOf(Category::class, Product::class, ProductCategoryCrossRef::class),

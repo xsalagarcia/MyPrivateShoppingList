@@ -34,18 +34,26 @@ class CategoriesAdapter (val listeners: CategoryItemListeners):
 
 }
 
+/**
+ * That class links the the functions passed as a param at the constructor to the functions
+ * defined at the class. Constructor is called at [CategoriesFragment], with the creation of
+ * [CategoriesAdapter] for the recyclerView.
+ */
 class CategoryItemListeners (
     val removeListener: (category: Category) -> Unit,
     val focusChangeCatETListener: (et: EditText, category: Category) -> Unit)
-
         {
             fun onClickRemove(category: Category) = removeListener(category)
             fun onFocusChangedCatNameET(editText: EditText, category: Category) = focusChangeCatETListener(editText, category)
 }
 
+
+/**
+ * Necessary for ListAdapter for calculating de difference between two non-null items in a list.
+ */
 class CategoryDiffCallback: DiffUtil.ItemCallback<Category>() {
     override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem.idc == newItem.idc
     }
 
     override fun areContentsTheSame(oldItem: Category, newItem: Category): Boolean {
