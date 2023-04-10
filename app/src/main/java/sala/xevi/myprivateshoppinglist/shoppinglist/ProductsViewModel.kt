@@ -21,6 +21,8 @@ class ProductsViewModel(val database: ShoppingListDao, application: Application)
 
     suspend fun getCategoriesList() = database.getAListOfCategories()
 
+    suspend fun getCategoriesNotInProduct(idp: Long) = database.getAListOfCategoriesNotInProduct(idp)
+
 
     fun addNewProduct (product: Product, categories: List<Category>?) {
 
@@ -30,6 +32,15 @@ class ProductsViewModel(val database: ShoppingListDao, application: Application)
                    database.insertProductCategoryCrossRef( ProductCategoryCrossRef(productId, category.idc))
             }
         }
+    }
+
+    fun addCategoriesToProduct(idp: Long, categories: List<Category>?){
+        CoroutineScope(Dispatchers.IO).launch{
+            categories?.forEach{cat ->
+                database.insertProductCategoryCrossRef(ProductCategoryCrossRef(idp, cat.idc))
+            }
+        }
+
     }
 
 

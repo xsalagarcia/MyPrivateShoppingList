@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import kotlinx.coroutines.launch
 import sala.xevi.myprivateshoppinglist.MainActivity
 import sala.xevi.myprivateshoppinglist.R
@@ -19,6 +20,7 @@ import sala.xevi.myprivateshoppinglist.createSelectableChip
 import sala.xevi.myprivateshoppinglist.database.Category
 import sala.xevi.myprivateshoppinglist.database.Product
 import sala.xevi.myprivateshoppinglist.database.ShoppingListDatabase
+import sala.xevi.myprivateshoppinglist.databinding.DialogAddCatToProductBinding
 import sala.xevi.myprivateshoppinglist.databinding.DialogNewProductBinding
 import sala.xevi.myprivateshoppinglist.databinding.FragmentShoppingListBinding
 
@@ -71,6 +73,15 @@ class ShoppingListFragment : Fragment() {
                 },
                 {product ->
                     productsViewModel.deleteProduct(product)
+                },
+                {product, categoriesCG ->
+                    (activity as MainActivity).showProgress(true)
+                    var categories: List<Category>? = null
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        categories = productsViewModel.getCategoriesNotInProduct(product.idp)
+                    }.invokeOnCompletion {
+                        (activity as MainActivity).showProgress(false)
+                        addNewCategoryToItem(categories, productsViewModel, product, categoriesCG) }
                 }
             ),
             productsViewModel
@@ -109,24 +120,27 @@ class ShoppingListFragment : Fragment() {
             }
 
             setPositiveButton(R.string.ok) { _, _ ->
+                if (!bindingDialog.productET.text.isNullOrBlank()) {
+                    val product = Product(
+                        0,
+                        bindingDialog.productET.text.toString(),
+                        bindingDialog.commentsET.text.toString(),
+                        bindingDialog.filterButtonsTBG.checkedButtonIds.contains(bindingDialog.hasToBuyBtn.id),
+                        bindingDialog.filterButtonsTBG.checkedButtonIds.contains(bindingDialog.isUrgentBtn.id)
+                    )
 
-                val product = Product(
-                    0,
-                    bindingDialog.productET.text.toString(),
-                    bindingDialog.commentsET.text.toString(),
-                    bindingDialog.filterButtonsTBG.checkedButtonIds.contains(bindingDialog.hasToBuyBtn.id),
-                    bindingDialog.filterButtonsTBG.checkedButtonIds.contains(bindingDialog.isUrgentBtn.id)
-                )
+                    val categoriesStr =
+                        arrayOfNulls<String>(bindingDialog.categoriesCG.checkedChipIds.size)
+                    var i = 0
+                    bindingDialog.categoriesCG.checkedChipIds.forEach { chip ->
+                        categoriesStr[i++] =
+                            (bindingDialog.categoriesCG.findViewById(chip) as Chip).text.toString()
+                    }
 
-                val categoriesStr = arrayOfNulls<String>(bindingDialog.categoriesCG.checkedChipIds.size)
-                var i = 0
-                bindingDialog.categoriesCG.checkedChipIds.forEach{chip ->
-                    categoriesStr[i++] = (bindingDialog.categoriesCG.findViewById(chip) as Chip).text.toString()
-             }
+                    productsViewModel.addNewProduct(product,
+                        categories?.filter { category -> categoriesStr.contains(category.name) })
 
-                productsViewModel.addNewProduct(product,
-                    categories?.filter{category -> categoriesStr.contains(category.name)})
-
+                }
             }
 
             setNegativeButton(R.string.cancel) { _, _ -> }
@@ -135,7 +149,33 @@ class ShoppingListFragment : Fragment() {
         }
     }
 
-    fun onButtonChecked(mbtg: MaterialButtonToggleGroup, checkedId: Int, isChecked: Boolean) {
-        println("hello")
+    private fun addNewCategoryToItem(categories: List<Category>?, productsViewModel: ProductsViewModel, product: Product, categoriesCG: ChipGroup) {
+        val bindingDialog = DialogAddCatToProductBinding.inflate(layoutInflater)
+
+        AlertDialog.Builder(context).apply{
+            setTitle(getString(R.string.add_cat_to_product, product.name))
+            setView(bindingDialog.root)
+            categories?.forEach{category ->
+                bindingDialog.categoriesCG.addView(createSelectableChip(context, category.name))
+            }
+
+            setPositiveButton(getString(R.string.ok)){_,_->
+                val selectedCategoriesStr = arrayOfNulls<String>(bindingDialog.categoriesCG.checkedChipIds.size)
+                var i = 0
+                bindingDialog.categoriesCG.checkedChipIds.forEach { chip ->
+                    selectedCategoriesStr[i++] = (bindingDialog.categoriesCG.findViewById(chip) as Chip).text.toString()
+                }
+
+                productsViewModel.addCategoriesToProduct(product.idp, categories?.filter{category -> selectedCategoriesStr.contains(category.name)})
+            }
+
+            setNegativeButton(R.string.cancel) { _, _ -> }
+
+            show()
+        }
     }
+
+    /*fun onButtonChecked(mbtg: MaterialButtonToggleGroup, checkedId: Int, isChecked: Boolean) {
+        println("hello")
+    }*/
 }

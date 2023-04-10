@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import kotlinx.coroutines.*
 import kotlinx.coroutines.NonDisposableHandle.parent
 import sala.xevi.myprivateshoppinglist.createProductWithCatChip
@@ -75,15 +76,17 @@ class ProductDiffCallback: DiffUtil.ItemCallback<ProductWithCategories> (){
     }
 
     override fun areContentsTheSame(oldItem: ProductWithCategories, newItem: ProductWithCategories): Boolean {
-        return oldItem.product == newItem.product
+        return oldItem.product == newItem.product && oldItem.categories == newItem.categories
     }
 
 }
+
 
 class ProductsItemListeners (
     val onFocusChangedProductETListener: (editText: EditText,  productWithCategories: ProductWithCategories) -> Unit,
     val onFocusChangedCommentsETListener: (editText: EditText,  productWithCategories: ProductWithCategories) -> Unit,
     val onClickRemoveListener: (product: Product) -> Unit,
+    val onClickAddCategoryListener:  (product: Product, categoriesCG: ChipGroup) -> Unit
     )  {
 
     fun onFocusChangedProductET (editText: EditText, productWithCategories: ProductWithCategories )
@@ -97,4 +100,6 @@ class ProductsItemListeners (
     fun onCloseIconCategoryChip (view: View, product: Product, viewModel: ProductsViewModel): Job {
         return viewModel.deleteProductCategoryCrossRef(product, (view as Chip).text.toString())
     }
+
+    fun onClickAddCategory (product: Product, categoriesCG: ChipGroup) = onClickAddCategoryListener(product, categoriesCG)
 }

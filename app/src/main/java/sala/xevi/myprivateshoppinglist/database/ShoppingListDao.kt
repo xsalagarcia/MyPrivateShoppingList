@@ -43,8 +43,9 @@ interface ShoppingListDao {
     @Query("SELECT * FROM category_table ORDER BY idc")
     fun getAllCategories (): LiveData<List<Category>> //suspend not necessary with livedata. Use dispatchers.io
 
-    @Query("SELECT * FROM category_table ORDER BY idc")
-    suspend fun getAllCategoriesInAList(): List<Category>
+    @Query("SELECT * FROM category_table WHERE category_table.idc NOT IN " +
+            "(SELECT idc FROM product_category_cross_ref WHERE idp = :id) ORDER BY idc")
+    suspend fun getAListOfCategoriesNotInProduct(id: Long): List<Category>
 
     @Query("SELECT * FROM category_table ORDER BY idc")
     suspend fun getAListOfCategories(): List<Category>

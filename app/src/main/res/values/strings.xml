@@ -15,4 +15,6 @@
     <string name="you_can_put_comments">You can punt some comments here (i.e. quantity)...</string>
     <string name="add_category">Add new category</string>
     <string name="product_name">Product name...</string>
+    <string name="add_cat_to_product_detail">Pick categories to add. You can create new categories at the categories list.</string>
+    <string name="add_cat_to_product">Add categories to %s.</string>
 </resources>

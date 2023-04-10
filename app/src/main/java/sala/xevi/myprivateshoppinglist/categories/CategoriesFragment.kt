@@ -112,7 +112,9 @@ class CategoriesFragment : Fragment() {
             setTitle(R.string.create_new_cat)
             setView(bindingDialog.root)
             setPositiveButton(R.string.ok){_, _ ->
-                categoriesViewModel.addNewCategory(bindingDialog.categoryET.text.toString())
+                if (!bindingDialog.categoryET.text.isNullOrBlank()) {
+                    categoriesViewModel.addNewCategory(bindingDialog.categoryET.text.toString())
+                }
             }
             setNegativeButton(R.string.cancel) {_ , _ ->}
             show()

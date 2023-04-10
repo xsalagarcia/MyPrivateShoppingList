@@ -143,6 +143,7 @@
                     android:tooltipText="@string/add_category"
                     style="@style/Widget.Material3.Button.IconButton"
                     android:background="?android:attr/selectableItemBackground"
+                    android:onClickListener="@{() -> productsItemListeners.onClickAddCategory(productWithCategories.product, categoriesCG)}"
                     app:srcCompat="@drawable/ic_category_ad_48_24" />
 
                 <HorizontalScrollView
