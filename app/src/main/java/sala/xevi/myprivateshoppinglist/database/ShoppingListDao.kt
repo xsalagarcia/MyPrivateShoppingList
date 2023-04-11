@@ -53,6 +53,7 @@ interface ShoppingListDao {
     @Query("SELECT * FROM category_table WHERE name LIKE '%' || :filter || '%'")
     fun getFilteredNameCategories(filter: String): LiveData<List<Category>>
 
+
 /*
     @Query("SELECT * FROM user WHERE region IN (:regions)")
     fun loadUsersFromRegions(regions: List<String>): List<User>

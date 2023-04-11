@@ -5,10 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
-import sala.xevi.myprivateshoppinglist.database.Category
-import sala.xevi.myprivateshoppinglist.database.Product
-import sala.xevi.myprivateshoppinglist.database.ProductCategoryCrossRef
-import sala.xevi.myprivateshoppinglist.database.ShoppingListDao
+import sala.xevi.myprivateshoppinglist.database.*
 
 class ProductsViewModel(val database: ShoppingListDao, application: Application) :
     AndroidViewModel(application) {

@@ -17,4 +17,6 @@
     <string name="product_name">Product name...</string>
     <string name="add_cat_to_product_detail">Pick categories to add. You can create new categories at the categories list.</string>
     <string name="add_cat_to_product">Add categories to %s.</string>
+    <string name="add_cat_to_filter">Add categories to filter</string>
+    <string name="add_cat_to_filter_detail">Pick categories to filter the shopping list. You can add new categories at categories list.</string>
 </resources>

@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.SearchView
+import androidx.core.view.allViews
+import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -19,10 +22,12 @@ import sala.xevi.myprivateshoppinglist.R
 import sala.xevi.myprivateshoppinglist.createSelectableChip
 import sala.xevi.myprivateshoppinglist.database.Category
 import sala.xevi.myprivateshoppinglist.database.Product
+import sala.xevi.myprivateshoppinglist.database.ProductWithCategories
 import sala.xevi.myprivateshoppinglist.database.ShoppingListDatabase
 import sala.xevi.myprivateshoppinglist.databinding.DialogAddCatToProductBinding
 import sala.xevi.myprivateshoppinglist.databinding.DialogNewProductBinding
 import sala.xevi.myprivateshoppinglist.databinding.FragmentShoppingListBinding
+import sala.xevi.myprivateshoppinglist.filterProductWithCatList
 
 class ShoppingListFragment : Fragment() {
 
@@ -105,7 +110,108 @@ class ShoppingListFragment : Fragment() {
                 addNewItem(categories, productsViewModel) }
         }
 
+        val onQueryTextListener = object: SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(newText: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText.isNullOrBlank()){
+                    productsViewModel.productsWithCategories.observe(viewLifecycleOwner) {
+                        it?.let {
+                            adapter.submitList(
+                                filterProductWithCatList(
+                                    it,
+                                    newText,
+                                    binding.filterButtonsTBG.checkedButtonIds.contains(binding.hasToBuyBtn.id),
+                                    binding.filterButtonsTBG.checkedButtonIds.contains(binding.isUrgentBtn.id),
+                                    binding.categoriesCG.children.map { view -> (view as Chip).text.toString() }
+                                        .toList()
+                                )
+                            )
+
+                        }
+                    }
+                } else {
+                    productsViewModel.productsWithCategories.observe(viewLifecycleOwner) {
+                        it?.let {
+                            adapter.submitList(
+                                filterProductWithCatList(
+                                    it,
+                                    newText,
+                                    binding.filterButtonsTBG.checkedButtonIds.contains(binding.hasToBuyBtn.id),
+                                    binding.filterButtonsTBG.checkedButtonIds.contains(binding.isUrgentBtn.id),
+                                    binding.categoriesCG.children.map { view -> (view as Chip).text.toString() }
+                                        .toList()
+                                )
+                            )
+
+                        }
+                    }
+                }
+                return false
+            }
+        }
+
+        binding.searchProductSV.setOnQueryTextListener(onQueryTextListener)
+
+        binding.filterIV.setOnClickListener{
+            (activity as MainActivity).showProgress(true)
+            var categories: List<Category>? = null
+            viewLifecycleOwner.lifecycleScope.launch {
+                categories = productsViewModel.getCategoriesList()
+            }.invokeOnCompletion {
+                (activity as MainActivity).showProgress(false)
+                if (categories != null) {
+                    addCatFilter(
+                        categories!!,
+                        onQueryTextListener,
+                        binding.searchProductSV.query.toString(),
+                        binding.categoriesCG
+                    )
+                }
+            }
+        }
+
+        binding.filterButtonsTBG.addOnButtonCheckedListener { _,_,_ ->
+            onQueryTextListener.onQueryTextChange(binding.searchProductSV.query.toString())
+        }
+
+
+
+
+
         return binding.root
+    }
+
+
+
+    private fun addCatFilter(
+        categories: List<Category>,listener: SearchView.OnQueryTextListener, text: String?, chipGroup: ChipGroup) {
+        val bindingDialog = DialogAddCatToProductBinding.inflate(layoutInflater)
+
+        AlertDialog.Builder(context).apply{
+            setTitle(getString(R.string.add_cat_to_filter))
+            setView(bindingDialog.root)
+            bindingDialog.text.setText(R.string.add_cat_to_filter_detail)
+            categories?.forEach{category ->
+                bindingDialog.categoriesCG.addView(createSelectableChip(context, category.name))
+            }
+
+            setPositiveButton(getString(R.string.ok)){_,_->
+                chipGroup.removeAllViews()
+                bindingDialog.categoriesCG.children.filter{view-> bindingDialog.categoriesCG.checkedChipIds.contains(view.id)}
+                    .forEach{view ->
+                        (view as Chip).isCheckable = false
+                        bindingDialog.categoriesCG.removeView(view)
+                        chipGroup.addView(view)}
+                listener.onQueryTextChange(text)
+            }
+
+            setNegativeButton(R.string.cancel) { _, _ -> }
+
+            show()
+        }
     }
 
     private fun addNewItem(categories: List<Category>?, productsViewModel: ProductsViewModel) {

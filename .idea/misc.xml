@@ -3,10 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/drawable-v24/ic_category_filter_48_24.xml" value="0.277" />
         <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/drawable/chip_state.xml" value="0.177" />
         <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/drawable/ic_baseline_category_24.xml" value="0.2005" />
         <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/drawable/ic_category_ad_48_24.xml" value="0.2005" />
         <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/drawable/ic_launcher_background.xml" value="0.197" />
+        <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/drawable/ic_outline_filter_alt_24.xml" value="0.277" />
         <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/layout-v26/fragment_shopping_list.xml" value="0.18333333333333332" />
         <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/layout/dialog_add_cat_to_product.xml" value="0.18211920529801323" />
@@ -15,7 +17,7 @@
         <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/layout/fragment_about.xml" value="0.11911231884057971" />
         <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/layout/fragment_categories.xml" value="0.1" />
         <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/layout/fragment_products.xml" value="0.18802083333333333" />
-        <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/layout/fragment_shopping_list.xml" value="0.1" />
+        <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/layout/fragment_shopping_list.xml" value="0.18" />
         <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/layout/list_item_cateory.xml" value="0.19010416666666666" />
         <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/layout/rv_item_category.xml" value="0.25" />
         <entry key="..\:/workspaces/AndroidStudioProjects/MyPrivateShoppingList/app/src/main/res/layout/rv_item_product.xml" value="0.25" />
