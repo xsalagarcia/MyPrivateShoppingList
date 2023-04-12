@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.core.view.allViews
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
@@ -16,6 +17,8 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import sala.xevi.myprivateshoppinglist.MainActivity
 import sala.xevi.myprivateshoppinglist.R
@@ -66,8 +69,16 @@ class ShoppingListFragment : Fragment() {
             ProductsItemListeners(
                 {editText, productWithCategories ->
                     if (!editText.hasFocus() && editText.text.toString() != productWithCategories.product.name) {
+                        val oldName = productWithCategories.product.name
                         productWithCategories.product.name = editText.text.toString()
-                        productsViewModel.updateProduct(productWithCategories.product)
+                        productsViewModel.updateProduct(productWithCategories.product).invokeOnCompletion { handler->
+                            CoroutineScope(Dispatchers.Main).launch{
+                                handler?.let{
+                                    Toast.makeText(context, getString(handler.message!!.toInt()), Toast.LENGTH_SHORT).show()
+                                    productWithCategories.product.name = oldName
+                                    editText.setText(oldName)
+                                }
+                            } }
                     }
                 },
                 {editText, productWithCategories ->
@@ -92,12 +103,13 @@ class ShoppingListFragment : Fragment() {
             productsViewModel
         )
 
+
         productsViewModel.productsWithCategories.observe(viewLifecycleOwner) {
             it?.let { adapter.submitList(it) }
         }
 
-        binding.productsRV.adapter = adapter
 
+        binding.productsRV.adapter = adapter
 
 
         binding.newItemFAB.setOnClickListener {
@@ -109,6 +121,7 @@ class ShoppingListFragment : Fragment() {
                 (activity as MainActivity).showProgress(false)
                 addNewItem(categories, productsViewModel) }
         }
+
 
         val onQueryTextListener = object: SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(newText: String?): Boolean {
@@ -153,7 +166,9 @@ class ShoppingListFragment : Fragment() {
             }
         }
 
+
         binding.searchProductSV.setOnQueryTextListener(onQueryTextListener)
+
 
         binding.filterIV.setOnClickListener{
             (activity as MainActivity).showProgress(true)
@@ -173,12 +188,10 @@ class ShoppingListFragment : Fragment() {
             }
         }
 
+
         binding.filterButtonsTBG.addOnButtonCheckedListener { _,_,_ ->
             onQueryTextListener.onQueryTextChange(binding.searchProductSV.query.toString())
         }
-
-
-
 
 
         return binding.root
@@ -245,6 +258,10 @@ class ShoppingListFragment : Fragment() {
 
                     productsViewModel.addNewProduct(product,
                         categories?.filter { category -> categoriesStr.contains(category.name) })
+                        .invokeOnCompletion { handler->
+                            CoroutineScope(Dispatchers.Main).launch{
+                                handler?.let{ Toast.makeText(context, getString(handler.message!!.toInt()), Toast.LENGTH_SHORT).show() }}
+                        }
 
                 }
             }

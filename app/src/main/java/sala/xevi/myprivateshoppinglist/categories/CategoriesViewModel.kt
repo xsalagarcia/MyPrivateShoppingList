@@ -2,6 +2,7 @@ package sala.xevi.myprivateshoppinglist.categories
 
 import android.app.AlertDialog
 import android.app.Application
+import android.database.sqlite.SQLiteConstraintException
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import sala.xevi.myprivateshoppinglist.R
 import sala.xevi.myprivateshoppinglist.database.Category
@@ -31,9 +34,14 @@ class CategoriesViewModel (val database: ShoppingListDao, application: Applicati
         return database.getFilteredNameCategories(filter)
     }
 
-    fun addNewCategory(categoryName: String) {
-        viewModelScope.launch {
-            database.insertCategory(Category(0, categoryName))
+    fun addNewCategory(categoryName: String): Job {
+        return viewModelScope.launch {
+            try {
+                database.insertCategory(Category(0, categoryName))
+            } catch (e: Exception){
+                cancel(if (e.javaClass == SQLiteConstraintException::class.java) (R.string.category_exist).toString()
+                else (R.string.unknown_problem).toString(), e)
+            }
         }
     }
 
@@ -43,9 +51,14 @@ class CategoriesViewModel (val database: ShoppingListDao, application: Applicati
         }
     }
 
-    fun updateCategory(category: Category) {
-        viewModelScope.launch{
-            database.updateCategory(category)
+    fun updateCategory(category: Category): Job {
+        return viewModelScope.launch{
+            try{
+                database.updateCategory(category)
+            } catch (e: Exception) {
+                cancel(if (e.javaClass == SQLiteConstraintException::class.java) (R.string.category_exist).toString()
+                else (R.string.unknown_problem).toString(), e)
+            }
         }
     }
 

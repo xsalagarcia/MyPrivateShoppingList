@@ -7,11 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.SearchView
+import android.widget.Toast
 
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import sala.xevi.myprivateshoppinglist.R
 import sala.xevi.myprivateshoppinglist.database.ShoppingListDatabase
 import sala.xevi.myprivateshoppinglist.databinding.DialogNewCategoryBinding
@@ -56,8 +60,17 @@ class CategoriesFragment : Fragment() {
                     {category -> categoriesViewModel.removeCategory(category)},
                     {editText, category ->
                         if (!editText.hasFocus() && editText.text.toString() != category.name) {
+                            val oldName = category.name
                             category.name = editText.text.toString()
-                            categoriesViewModel.updateCategory(category)
+                            categoriesViewModel.updateCategory(category).invokeOnCompletion { handler ->
+                                CoroutineScope(Dispatchers.Main).launch{
+                                    handler?.let{
+                                        Toast.makeText(context, getString(handler.message!!.toInt()), Toast.LENGTH_SHORT).show()
+                                        category.name = oldName
+                                        editText.setText(oldName)
+                                    }
+                                }
+                            }
                         }
                     }
             )
@@ -113,7 +126,14 @@ class CategoriesFragment : Fragment() {
             setView(bindingDialog.root)
             setPositiveButton(R.string.ok){_, _ ->
                 if (!bindingDialog.categoryET.text.isNullOrBlank()) {
-                    categoriesViewModel.addNewCategory(bindingDialog.categoryET.text.toString())
+
+                    categoriesViewModel.addNewCategory(bindingDialog.categoryET.text.toString()).invokeOnCompletion { handler->
+                        CoroutineScope(Dispatchers.Main).launch{
+                            handler?.let{
+                                Toast.makeText(context, getString(handler.message!!.toInt()), Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
                 }
             }
             setNegativeButton(R.string.cancel) {_ , _ ->}

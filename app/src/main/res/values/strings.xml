@@ -19,4 +19,12 @@
     <string name="add_cat_to_product">Add categories to %s.</string>
     <string name="add_cat_to_filter">Add categories to filter</string>
     <string name="add_cat_to_filter_detail">Pick categories to filter the shopping list. You can add new categories at categories list.</string>
+    <string name="product_exist">This product name already exists.</string>
+    <string name="unknown_problem">Unknown problem.</string>
+    <string name="category_exist">This category name already exists.</string>
+    <string name="about_app">The app is free, under Apache License 2.0.</string>
+    <string name="see_license">You can see Apache License 2.0 here:</string>
+    <string name="code_link">https://github.com/xsalagarcia/MyPrivateShoppingList</string>
+    <string name="license_link">https://www.apache.org/licenses/LICENSE-2.0.txt</string>
+    <string name="see_about_app">About the app...</string>
 </resources>

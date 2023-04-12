@@ -16,6 +16,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        supportActionBar?.hide()
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         binding.bottomNavigation.setOnItemSelectedListener { mi->onItemSelectedBottomNav(mi) }

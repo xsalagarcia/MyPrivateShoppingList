@@ -1,10 +1,14 @@
 package sala.xevi.myprivateshoppinglist.shoppinglist
 
 import android.app.Application
+import android.content.ContentResolver
+import android.database.sqlite.SQLiteConstraintException
+import android.provider.Settings.Global.getString
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.*
+import sala.xevi.myprivateshoppinglist.R
 import sala.xevi.myprivateshoppinglist.database.*
 
 class ProductsViewModel(val database: ShoppingListDao, application: Application) :
@@ -21,12 +25,22 @@ class ProductsViewModel(val database: ShoppingListDao, application: Application)
     suspend fun getCategoriesNotInProduct(idp: Long) = database.getAListOfCategoriesNotInProduct(idp)
 
 
-    fun addNewProduct (product: Product, categories: List<Category>?) {
+    fun addNewProduct (product: Product, categories: List<Category>?): Job {
 
-        CoroutineScope(Dispatchers.IO).launch{
-            val productId = database.insertProduct(product)
-            categories?.forEach { category ->
-                   database.insertProductCategoryCrossRef( ProductCategoryCrossRef(productId, category.idc))
+        return CoroutineScope(Dispatchers.IO).launch{
+            val result = try {
+                val productId = database.insertProduct(product)
+                categories?.forEach { category ->
+                    database.insertProductCategoryCrossRef(
+                        ProductCategoryCrossRef(
+                            productId,
+                            category.idc
+                        )
+                    )
+                }
+            } catch (e: Exception){
+                cancel(if (e.javaClass == SQLiteConstraintException::class.java) (R.string.product_exist).toString()
+                    else (R.string.unknown_problem).toString(), e)
             }
         }
     }
@@ -41,9 +55,14 @@ class ProductsViewModel(val database: ShoppingListDao, application: Application)
     }
 
 
-    fun updateProduct (product: Product) {
-        viewModelScope.launch {
-            database.updateProduct(product)
+    fun updateProduct (product: Product): Job {
+        return viewModelScope.launch {
+            try {
+                database.updateProduct(product)
+            } catch (e: Exception){
+                cancel (if (e.javaClass == SQLiteConstraintException::class.java) (R.string.product_exist).toString()
+                    else (R.string.unknown_problem).toString())
+            }
         }
     }
 
