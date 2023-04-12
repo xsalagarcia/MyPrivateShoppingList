@@ -45,8 +45,8 @@ class CategoriesViewModel (val database: ShoppingListDao, application: Applicati
         }
     }
 
-    fun removeCategory(category: Category) {
-        viewModelScope.launch {
+    fun removeCategory(category: Category) : Job {
+        return viewModelScope.launch {
             database.deleteCategory(category)
         }
     }

@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -88,7 +89,17 @@ class ShoppingListFragment : Fragment() {
                     }
                 },
                 {product ->
-                    productsViewModel.deleteProduct(product)
+                    var catList : List<Category>? = null
+                    CoroutineScope(Dispatchers.IO).launch{
+                        catList = productsViewModel.getCategoriesInProduct(product.idp)
+                        productsViewModel.deleteProduct(product)}.invokeOnCompletion {
+                            CoroutineScope(Dispatchers.Main).launch {
+                                (activity as MainActivity).showSnackBar(
+                                    Snackbar.make(binding.root, getString(R.string.deleted) + product.name, Snackbar.LENGTH_INDEFINITE).setAction(getString(R.string.undo)){
+                                        productsViewModel.addNewProduct(product, catList)
+                                    } )
+                            }
+                    }
                 },
                 {product, categoriesCG ->
                     (activity as MainActivity).showProgress(true)

@@ -42,6 +42,7 @@ class ProductsAdapter (val listeners: ProductsItemListeners, private val viewMod
                     binding.toBuyAndUrgentTBG.check(binding.isUrgent.id)
                 }
 
+                binding.categoriesCG.removeAllViews()
                 productWithCategories.categories.forEach { cat ->
                     val chip = createProductWithCatChip(context, cat.name)
                     chip.setOnCloseIconClickListener { view ->

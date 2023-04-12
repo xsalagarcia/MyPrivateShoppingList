@@ -24,6 +24,8 @@ class ProductsViewModel(val database: ShoppingListDao, application: Application)
 
     suspend fun getCategoriesNotInProduct(idp: Long) = database.getAListOfCategoriesNotInProduct(idp)
 
+    suspend fun getCategoriesInProduct(idp:Long) = database.getAListOfCategoriesInProduct(idp)
+
 
     fun addNewProduct (product: Product, categories: List<Category>?): Job {
 
@@ -66,8 +68,8 @@ class ProductsViewModel(val database: ShoppingListDao, application: Application)
         }
     }
 
-    fun deleteProduct (product: Product) {
-        viewModelScope.launch {
+    fun deleteProduct (product: Product): Job {
+        return viewModelScope.launch {
             database.deleteProduct(product)
         }
     }

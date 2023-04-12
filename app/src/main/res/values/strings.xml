@@ -27,4 +27,6 @@
     <string name="code_link">https://github.com/xsalagarcia/MyPrivateShoppingList</string>
     <string name="license_link">https://www.apache.org/licenses/LICENSE-2.0.txt</string>
     <string name="see_about_app">About the app...</string>
+    <string name="deleted">"Deleted "</string>
+    <string name="undo">Undo</string>
 </resources>

@@ -13,9 +13,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import sala.xevi.myprivateshoppinglist.MainActivity
 import sala.xevi.myprivateshoppinglist.R
 import sala.xevi.myprivateshoppinglist.database.ShoppingListDatabase
 import sala.xevi.myprivateshoppinglist.databinding.DialogNewCategoryBinding
@@ -57,7 +59,17 @@ class CategoriesFragment : Fragment() {
         val adapter = CategoriesAdapter(
 
             CategoryItemListeners (
-                    {category -> categoriesViewModel.removeCategory(category)},
+                    {category ->
+                        categoriesViewModel.removeCategory(category).invokeOnCompletion {
+                            CoroutineScope(Dispatchers.Main).launch {
+                                (activity as MainActivity).showSnackBar(
+                                    Snackbar.make(binding.root, getString(R.string.deleted) + category.name, Snackbar.LENGTH_INDEFINITE).setAction(getString(R.string.undo)){
+                                        categoriesViewModel.addNewCategory(category.name)
+                                    } )
+                            }
+                        }
+
+                    },
                     {editText, category ->
                         if (!editText.hasFocus() && editText.text.toString() != category.name) {
                             val oldName = category.name
