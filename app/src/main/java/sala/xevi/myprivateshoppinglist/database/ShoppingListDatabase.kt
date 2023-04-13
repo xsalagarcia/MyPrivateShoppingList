@@ -69,7 +69,7 @@ data class ProductWithCategories (
 
 
 @Database(entities = arrayOf(Category::class, Product::class, ProductCategoryCrossRef::class),
-    version = 1, exportSchema = false)
+    version = 2, exportSchema = false)
 abstract class ShoppingListDatabase : RoomDatabase(){
 
     abstract val shoppingListDao: ShoppingListDao

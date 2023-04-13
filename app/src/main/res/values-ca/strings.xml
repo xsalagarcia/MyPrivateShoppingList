@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MyPrivateShoppingList</string>
+    <string name="shopping_list">Llista de la compra</string>
+    <string name="categories">Categories</string>
+    <string name="about">Sobre la app</string>
+    <string name="urgent">Urgent</string>
+    <string name="to_buy">Per comprar</string>
+    <string name="delete">Eliminar</string>
+    <string name="create_new_cat">Crea una nova categoria</string>
+    <string name="create_new_prod">Crea un nou producte</string>
+    <string name="write_cat_name">Escriu un nom per la categoria</string>
+    <string name="cat_suggestion">Pot ser una botiga o un tipus de producte...</string>
+    <string name="ok">D\'acord</string>
+    <string name="cancel">Cancel·la</string>
+    <string name="expand">Expandeix</string>
+    <string name="you_can_put_comments">Pots posar alguns comentaris aquí</string>
+    <string name="add_category">Afegeix una nova categoria</string>
+    <string name="product_name">Nom del producte...</string>
+    <string name="add_cat_to_product_detail">Escull categories per afegir. Ports crear noves categories a la llista de categories.</string>
+    <string name="add_cat_to_product">Afegeix categories a %s.</string>
+    <string name="add_cat_to_filter">Afegeix categories per filtrar.</string>
+    <string name="add_cat_to_filter_detail">Escull ctegories per filtrar la llista de la compra. Pots afegir noves categories a la llista de categories.</string>
+    <string name="product_exist">El nom del producte ja existeix.</string>
+    <string name="unknown_problem">Problema desconegut.</string>
+    <string name="category_exist">El nom de la categoria ja existeix.</string>
+    <string name="about_app">Aquesta app és gratuïta, sota Llicència Apache 2.0.</string>
+    <string name="see_license">Pots veure la Llicència Apache 2.0 aquí:</string>
+    <string name="see_about_app">Sobre la app...</string>
+    <string name="deleted">"Esborrat "</string>
+    <string name="undo">Desfer</string>
+</resources>

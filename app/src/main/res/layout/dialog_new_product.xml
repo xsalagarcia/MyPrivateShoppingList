@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
+            style="@style/CategoryET"
             android:hint="@string/product_name" />
 
         <EditText
@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
+            style="@style/CategoryET"
             android:hint="@string/you_can_put_comments" />
 
         <com.google.android.material.button.MaterialButtonToggleGroup

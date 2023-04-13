@@ -9,6 +9,10 @@ import android.view.View
 import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import sala.xevi.myprivateshoppinglist.databinding.ActivityMainBinding
 import kotlin.math.roundToInt
@@ -20,6 +24,8 @@ class MainActivity : AppCompatActivity() {
 
     var snackbar: Snackbar? = null;
 
+    var bottomMenu: BottomNavigationView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -27,24 +33,18 @@ class MainActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        binding.bottomNavigation.setOnItemSelectedListener { mi->onItemSelectedBottomNav(mi) }
+        bottomMenu = binding.bottomNavigation
+
+
+        binding.bottomNavigation.setupWithNavController(
+            (supportFragmentManager.findFragmentById(binding.fragmentContainerView.id) as NavHostFragment)
+                .findNavController()
+        )
 
 
     }
 
 
-
-    fun onItemSelectedBottomNav(menuItem: MenuItem):Boolean {
-
-        when (menuItem.itemId) {
-            R.id.shopping_list -> findNavController(R.id.fragmentContainerView).navigate(R.id.shoppingListFragment)
-            R.id.categories -> findNavController(R.id.fragmentContainerView).navigate(R.id.categoriesFragment)
-            R.id.about -> findNavController(R.id.fragmentContainerView).navigate(R.id.aboutFragment)
-        }
-
-
-        return true
-    }
 
     fun showProgress (hasToShow: Boolean) {
 

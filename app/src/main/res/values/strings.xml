@@ -7,6 +7,7 @@
     <string name="to_buy">To buy</string>
     <string name="delete">Delete</string>
     <string name="create_new_cat">Create a new category</string>
+    <string name="create_new_prod">Create a new product</string>
     <string name="write_cat_name">Write a category name</string>
     <string name="cat_suggestion">Maybe a shop or kind of product...</string>
     <string name="ok">Ok</string>
@@ -17,7 +18,7 @@
     <string name="product_name">Product name...</string>
     <string name="add_cat_to_product_detail">Pick categories to add. You can create new categories at the categories list.</string>
     <string name="add_cat_to_product">Add categories to %s.</string>
-    <string name="add_cat_to_filter">Add categories to filter</string>
+    <string name="add_cat_to_filter">Add categories to filter.</string>
     <string name="add_cat_to_filter_detail">Pick categories to filter the shopping list. You can add new categories at categories list.</string>
     <string name="product_exist">This product name already exists.</string>
     <string name="unknown_problem">Unknown problem.</string>

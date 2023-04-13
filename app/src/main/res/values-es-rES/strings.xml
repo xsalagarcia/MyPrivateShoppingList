@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MyPrivateShoppingList</string>
+    <string name="shopping_list">Lista de la compra</string>
+    <string name="categories">Categorías</string>
+    <string name="about">Sobre la app</string>
+    <string name="urgent">Urgente</string>
+    <string name="to_buy">Para comprar</string>
+    <string name="delete">Eliminar</string>
+    <string name="create_new_cat">Crea una nueva categoría</string>
+    <string name="create_new_prod">Crea un nuevo producto</string>
+    <string name="write_cat_name">Escribe un nombre para la categoría</string>
+    <string name="cat_suggestion">Puede ser una tienda o un tipo de producto...</string>
+    <string name="ok">De acuerdo</string>
+    <string name="cancel">Cancelar</string>
+    <string name="expand">Expande</string>
+    <string name="you_can_put_comments">Puedes poner algunos comentarios aquí</string>
+    <string name="add_category">Añade una nueva categoria</string>
+    <string name="product_name">Nombre del producto...</string>
+    <string name="add_cat_to_product_detail">Elije cateogías por añadir. Puedes crear nuevas categorías en la lista de categorías.</string>
+    <string name="add_cat_to_product">Añade categorías a %s.</string>
+    <string name="add_cat_to_filter">Añade categorías para filtrar.</string>
+    <string name="add_cat_to_filter_detail">Elije categorías para filtrar la lista de la compra. Puedes añadir nuevas categorías en la lista de categorías.</string>
+    <string name="product_exist">El nombre del producto ya existe.</string>
+    <string name="unknown_problem">Problema desconocido.</string>
+    <string name="category_exist">El nombre de la categoría ya existe.</string>
+    <string name="about_app">Esta app es gratuita, bajo Licencia Apache 2.0.</string>
+    <string name="see_license">Puedes ver la Licencia Apache 2.0 aquí:</string>
+    <string name="see_about_app">Sobre la app...</string>
+    <string name="deleted">"Eliminado "</string>
+    <string name="undo">Deshacer</string>
+</resources>

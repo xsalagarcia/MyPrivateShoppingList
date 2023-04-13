@@ -110,7 +110,7 @@
                     android:ems="10"
                     android:hint="@string/you_can_put_comments"
                     android:paddingRight="40dp"
-                    android:inputType="textPersonName"
+                    style="@style/CategoryET"
                     android:text="@{productWithCategories.product.comments}"
                     app:onFocusChangeListener="@{() -> productsItemListeners.onFocusChangedCommentsET(commentsET, productWithCategories)}"
                     android:minHeight="48dp" />

@@ -47,6 +47,8 @@ class ShoppingListFragment : Fragment() {
         val binding: FragmentShoppingListBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_shopping_list, container, false)
 
+        //(activity as MainActivity).bottomMenu?.selectedItemId = R.id.shopping_list
+
         //The application context
         val application = requireNotNull(this.activity).application
 
@@ -242,7 +244,7 @@ class ShoppingListFragment : Fragment() {
         val bindingDialog = DialogNewProductBinding.inflate(layoutInflater)
 
         AlertDialog.Builder(context).apply {
-            setTitle(R.string.create_new_cat)
+            setTitle(R.string.create_new_prod)
             setView(bindingDialog.root)
             categories?.forEach { category->
 
