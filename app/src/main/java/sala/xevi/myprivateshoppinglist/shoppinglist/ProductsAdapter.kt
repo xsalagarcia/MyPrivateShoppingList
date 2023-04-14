@@ -35,6 +35,8 @@ class ProductsAdapter (val listeners: ProductsItemListeners, private val viewMod
                 binding.productWithCategories = productWithCategories
                 binding.productsItemListeners = listeners
                 binding.productViewModel = viewModel
+
+                binding.toBuyAndUrgentTBG.clearChecked()
                 if (productWithCategories.product.hasToShop) {
                     binding.toBuyAndUrgentTBG.check(binding.hasToBuy.id)
                 }
@@ -66,6 +68,7 @@ class ProductsAdapter (val listeners: ProductsItemListeners, private val viewMod
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.binding.toBuyAndUrgentTBG.clearOnButtonCheckedListeners() // because it's RECYCLER
         holder.bind(getItem(position), listeners, viewModel)
     }
 
@@ -103,4 +106,6 @@ class ProductsItemListeners (
     }
 
     fun onClickAddCategory (product: Product, categoriesCG: ChipGroup) = onClickAddCategoryListener(product, categoriesCG)
+
+
 }

@@ -37,10 +37,10 @@ interface ShoppingListDao {
             "(SELECT category_table.idc FROM category_table WHERE name = :catName)")
     suspend fun deleteProductCategoryCrossRef (productId: Long, catName: String)
 
-    @Query("SELECT * FROM products_table ORDER BY idp")
+    @Query("SELECT * FROM products_table ORDER BY name")
     fun getAllProducts (): LiveData<List<Product>>//LiveData<List<Product>>
 
-    @Query("SELECT * FROM category_table ORDER BY idc")
+    @Query("SELECT * FROM category_table ORDER BY name")
     fun getAllCategories (): LiveData<List<Category>> //suspend not necessary with livedata. Use dispatchers.io
 
     @Query("SELECT * FROM category_table WHERE category_table.idc NOT IN " +
@@ -102,7 +102,7 @@ interface ShoppingListDao {
 
 
     @Transaction
-    @Query("SELECT * FROM products_table")
+    @Query("SELECT * FROM products_table ORDER BY name")
     fun getAllProductsWithCategories():LiveData<List<ProductWithCategories>>
 
     @Transaction

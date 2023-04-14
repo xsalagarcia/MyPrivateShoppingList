@@ -39,6 +39,7 @@ fun TextView.setProductComments(product: Product) {
 
 @BindingAdapter("buttonUrgent","buttonToBuy")
 fun MaterialButtonToggleGroup.setButtonsUrgentAndToBuy(urgentBtn: Button, toBuyBtn: Button) {
+
     urgentBtn.setOnClickListener {
         if (checkedButtonIds.contains(urgentBtn.id) && !checkedButtonIds.contains(toBuyBtn.id)){
             check(toBuyBtn.id)
@@ -57,11 +58,11 @@ fun MaterialButtonToggleGroup.setButtonsUrgentAndToBuy(urgentBtn: Button, toBuyB
 fun MaterialButtonToggleGroup.setCheckedButtonsAtSearch(toBuyBtn: Button) {
     addOnButtonCheckedListener{group,checkedId,isChecked->
         if (checkedButtonIds.size == 2  ){ //both are checked
-            println("both checked")
+
         } else if (checkedButtonIds.size == 0){ //none is checked
-            println("none checked")
+
         } else if (checkedId == toBuyBtn.id && checkedButtonIds.size == 1 && isChecked || checkedId != toBuyBtn.id && !isChecked) { //one is checked (to buy action)
-            println("to buy checked")
+
         }
     }
 }
@@ -69,6 +70,7 @@ fun MaterialButtonToggleGroup.setCheckedButtonsAtSearch(toBuyBtn: Button) {
 //At recyclerview
 @BindingAdapter("buttonToBuyAtChecked", "viewModel", "productWithCategories")
 fun MaterialButtonToggleGroup.setCheckedButtonsAtItem(toBuyBtn: Button, viewModel: ProductsViewModel, productWithCategories: ProductWithCategories) {
+    //clearOnButtonCheckedListeners() //RECYCLER view!!!
     addOnButtonCheckedListener{group,checkedId,isChecked->
         if (checkedButtonIds.size == 2  ){ //both are checked
             productWithCategories.product.hasToShop = true
@@ -84,6 +86,8 @@ fun MaterialButtonToggleGroup.setCheckedButtonsAtItem(toBuyBtn: Button, viewMode
             viewModel.updateProduct(productWithCategories.product)
         }
     }
+
+
 
 
 }

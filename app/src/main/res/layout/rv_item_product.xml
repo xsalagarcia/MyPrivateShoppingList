@@ -56,7 +56,6 @@
                 app:buttonToBuyAtChecked="@{hasToBuy}"
                 app:viewModel="@{productViewModel}"
                 app:productWithCategories="@{productWithCategories}"
-
                 app:singleSelection="false">
 
                 <Button
