@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="0"
-                app:srcCompat="@drawable/ic_outline_filter_alt_24" />
+                app:srcCompat="@drawable/ic_category_ad_48_24" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"

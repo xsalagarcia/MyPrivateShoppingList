@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.core.view.allViews
@@ -183,24 +184,24 @@ class ShoppingListFragment : Fragment() {
         binding.searchProductSV.setOnQueryTextListener(onQueryTextListener)
 
 
-        binding.filterIV.setOnClickListener{
-            (activity as MainActivity).showProgress(true)
-            var categories: List<Category>? = null
-            viewLifecycleOwner.lifecycleScope.launch {
-                categories = productsViewModel.getCategoriesList()
-            }.invokeOnCompletion {
-                (activity as MainActivity).showProgress(false)
-                if (categories != null) {
-                    addCatFilter(
-                        categories!!,
-                        onQueryTextListener,
-                        binding.searchProductSV.query.toString(),
-                        binding.categoriesCG
-                    )
-                }
-            }
-        }
+        binding.filterIV.setOnClickListener {
 
+                (activity as MainActivity).showProgress(true)
+                var categories: List<Category>? = null
+                viewLifecycleOwner.lifecycleScope.launch {
+                    categories = productsViewModel.getCategoriesList()
+                }.invokeOnCompletion {
+                    (activity as MainActivity).showProgress(false)
+                    if (categories != null) {
+                        addCatFilter(
+                            categories!!,
+                            onQueryTextListener,
+                            binding.searchProductSV.query.toString(),
+                            binding.categoriesCG
+                        )
+                    }
+                }
+        }
 
         binding.filterButtonsTBG.addOnButtonCheckedListener { _,_,_ ->
             onQueryTextListener.onQueryTextChange(binding.searchProductSV.query.toString())
@@ -226,13 +227,23 @@ class ShoppingListFragment : Fragment() {
 
             setPositiveButton(getString(R.string.ok)){_,_->
                 chipGroup.removeAllViews()
-                bindingDialog.categoriesCG.children.filter{view-> bindingDialog.categoriesCG.checkedChipIds.contains(view.id)}
-                    .forEach{view ->
-                        (view as Chip).isCheckable = false
-                        bindingDialog.categoriesCG.removeView(view)
-                        chipGroup.addView(view)}
+                bindingDialog.categoriesCG.children
+                    .filter{view -> bindingDialog.categoriesCG.checkedChipIds.contains(view.id)}
+                        .toList().forEach{view ->
+                            (view as Chip). apply {
+                                isCheckable = false
+                                isCloseIconVisible = true
+                                setOnCloseIconClickListener {
+                                    chipGroup.removeView(it)
+                                    listener.onQueryTextChange(text)
+                                }
+                                bindingDialog.categoriesCG.removeView(view)
+                                chipGroup.addView(view)
+                            }}
+
                 listener.onQueryTextChange(text)
             }
+
 
             setNegativeButton(R.string.cancel) { _, _ -> }
 
