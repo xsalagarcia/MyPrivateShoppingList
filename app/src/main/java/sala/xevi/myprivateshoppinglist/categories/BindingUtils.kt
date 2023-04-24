@@ -5,7 +5,7 @@ import androidx.databinding.BindingAdapter
 import sala.xevi.myprivateshoppinglist.database.Category
 
 /**
- * This file contains the custom binding adapters
+ * This file contains the custom binding adapters for categories fragment and the associated recycler view.
  */
 
 @BindingAdapter("categoryName")

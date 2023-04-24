@@ -58,6 +58,7 @@ class CategoriesFragment : Fragment() {
         //Adapter. Creation, sets data with observer, sets adapter to the recyclerView.
         val adapter = CategoriesAdapter(
 
+            //Listeners
             CategoryItemListeners (
                     {category ->
                         categoriesViewModel.removeCategory(category).invokeOnCompletion {
@@ -89,12 +90,14 @@ class CategoriesFragment : Fragment() {
 
         )
 
+        //When categoriesViewModel.categories will change, adapter will submit the list.
         categoriesViewModel.categories.observe(viewLifecycleOwner) {
             it?.let {
                 adapter.submitList(it)
             }
         }
 
+        binding.categoriesRV.adapter = adapter
 
         binding.searchCategoriesSV.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -119,8 +122,6 @@ class CategoriesFragment : Fragment() {
             }
 
         })
-
-        binding.categoriesRV.adapter = adapter
 
         //In a fragment, onclick programmatically.
         binding.newItemFAB.setOnClickListener { addCategory(categoriesViewModel) }

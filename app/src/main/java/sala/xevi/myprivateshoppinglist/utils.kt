@@ -7,6 +7,10 @@ import android.view.View
 import com.google.android.material.chip.Chip
 import sala.xevi.myprivateshoppinglist.database.ProductWithCategories
 
+
+/**
+ * Creates a checkable chip without checked icon chip.
+ */
 fun createSelectableChip(context: Context, text: String) : Chip {
     return Chip(context).apply{
         this.text = text
@@ -20,6 +24,9 @@ fun createSelectableChip(context: Context, text: String) : Chip {
 
 }
 
+/**
+ * Creates a chip with close icon visible.
+ */
 fun createProductWithCatChip(context: Context, text: String) : Chip {
     return Chip(context).apply {
         isCloseIconVisible = true
@@ -31,16 +38,28 @@ fun createProductWithCatChip(context: Context, text: String) : Chip {
     }
 }
 
+/**
+ * Given a list of products, returns another list based on a filter.
+ * @param text for product name.
+ * @param hasToBuy if true, only true values.
+ * @param isUrgent if true, only true values.
+ * @param listCat List of categories. If it isn't empty, products with these categories associated.
+ */
 fun filterProductWithCatList(list: List<ProductWithCategories>, text: String?, hasToBuy: Boolean, isUrgent: Boolean, listCat: List<String> ): List<ProductWithCategories>{
     var filteredList =list
     if (!text.isNullOrBlank()) {
         filteredList = filteredList.filter { filtered -> filtered.product.name.contains(text) }
     }
-    if (hasToBuy) {
+
+    if (isUrgent){
+        filteredList = filteredList.filter {filtered ->
+            filtered.product.isUrgent         }
+    } else if (hasToBuy) {
         filteredList = filteredList.filter { filtered ->
-            filtered.product.hasToShop == hasToBuy && filtered.product.isUrgent == isUrgent
+            filtered.product.hasToShop
         }
     }
+
     if (listCat.isNotEmpty()) {
         filteredList = filteredList.filter { filtered ->
             filtered.categories.map { cat -> cat.name }.containsAll(listCat)
