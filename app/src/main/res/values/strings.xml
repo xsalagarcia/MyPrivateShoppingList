@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyPrivateShoppingList</string>
+    <string name="app_name">Private Shopping List</string>
     <string name="shopping_list">Shopping List</string>
     <string name="categories">Categories</string>
     <string name="about">About</string>

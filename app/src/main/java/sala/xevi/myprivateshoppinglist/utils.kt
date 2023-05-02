@@ -48,7 +48,7 @@ fun createProductWithCatChip(context: Context, text: String) : Chip {
 fun filterProductWithCatList(list: List<ProductWithCategories>, text: String?, hasToBuy: Boolean, isUrgent: Boolean, listCat: List<String> ): List<ProductWithCategories>{
     var filteredList =list
     if (!text.isNullOrBlank()) {
-        filteredList = filteredList.filter { filtered -> filtered.product.name.contains(text) }
+        filteredList = filteredList.filter { filtered -> filtered.product.name.contains(text, true) }
     }
 
     if (isUrgent){
@@ -62,7 +62,7 @@ fun filterProductWithCatList(list: List<ProductWithCategories>, text: String?, h
 
     if (listCat.isNotEmpty()) {
         filteredList = filteredList.filter { filtered ->
-            filtered.categories.map { cat -> cat.name }.containsAll(listCat)
+            filtered.categories.map { cat -> cat.name }.any { catName -> listCat.contains(catName) }// containsAll(listCat)
         }
     }
     return filteredList

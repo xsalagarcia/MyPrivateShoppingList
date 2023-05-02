@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MyPrivateShoppingList</string>
+    <string name="app_name">Llista de la Compra Privada</string>
     <string name="shopping_list">Llista de la compra</string>
     <string name="categories">Categories</string>
     <string name="about">Sobre la app</string>

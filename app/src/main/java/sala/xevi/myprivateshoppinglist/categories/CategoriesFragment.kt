@@ -47,7 +47,7 @@ class CategoriesFragment : Fragment() {
         //sets categoriesViewModel layout variable
         binding.categoriesViewModel = categoriesViewModel
 
-        //Sets the current activity as the lifecycle owner of the binding
+        //Sets the current activity as the lifecycle owner of the binding // Allows Data Binding to Observe LiveData with the lifecycle of this Fragment
         binding.lifecycleOwner = viewLifecycleOwner//this //viewLifeCycleOwner??
 
 
